@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthVerification from '../components/AuthVerification';
+import AuthEmailPassword from '../components/AuthEmailPassword';
 import { useUser } from '../contexts/UserContext';
 import { GraduationCap } from 'lucide-react';
 
@@ -26,7 +26,9 @@ const LoginPage: React.FC = () => {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <AuthVerification onVerified={handleVerified} />
+          <AuthEmailPassword
+            onAuth={handleVerified}
+          />
         </div>
         <p className="mt-4 text-center text-sm text-blue-100">
           Use seu email acadêmico para autenticar-se no sistema.

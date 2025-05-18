@@ -1,6 +1,5 @@
-export const isValidEmail = (email: string): boolean => {
-  return email.endsWith('@dcomp.ufs.br');
-};
+export const isValidEmail = (e:string) => e.endsWith('@dcomp.ufs.br');
+
 
 export const generateVerificationCode = (): string => {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -23,3 +22,4 @@ export const getFromLocalStorage = <T>(key: string, defaultValue: T): T => {
 export const clearLocalStorage = (key: string): void => {
   localStorage.removeItem(key);
 };
+
