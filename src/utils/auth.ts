@@ -1,5 +1,5 @@
 export const isValidEmail = (email: string): boolean => {
-  return email.endsWith('@academico.ufs.br');
+  return email.endsWith('@dcomp.ufs.br');
 };
 
 export const generateVerificationCode = (): string => {

@@ -26,7 +26,7 @@ export default function AuthVerification({
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isAcademic(email)) {
-      setError('Use um e-mail @academico.ufs.br');
+      setError('Use um e-mail @dcomp.ufs.br');
       return;
     }
     try {
@@ -76,7 +76,7 @@ export default function AuthVerification({
     <form onSubmit={handleSend} className="space-y-4 max-w-md mx-auto">
       <input
         type="email"
-        placeholder="seu.email@academico.ufs.br"
+        placeholder="seu.email@dcomp.ufs.br"
         className="border p-2 w-full"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
