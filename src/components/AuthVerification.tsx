@@ -20,7 +20,7 @@ export default function AuthVerification({
   const [stage, setStage] = useState<'input' | 'sent'>('input');
   const [error, setError] = useState('');
 
-  const isAcademic = (e: string) => e.endsWith('@academico.ufs.br');
+  const isAcademic = (e: string) => e.endsWith('@dcomp.ufs.br');
 
   /* ---------- envia link ---------- */
   const handleSend = async (e: React.FormEvent) => {
