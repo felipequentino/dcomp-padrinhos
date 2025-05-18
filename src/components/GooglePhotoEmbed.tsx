@@ -31,7 +31,7 @@ const GooglePhotoEmbed: React.FC<GooglePhotoEmbedProps> = ({ url, alt, className
       className={`object-cover rounded-lg ${className || ''}`}
       onError={(e) => {
         // Fallback image if the Google Drive image fails to load
-        (e.target as HTMLImageElement).src = 'https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg';
+        (e.target as HTMLImageElement).src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
       }}
     />
   );
