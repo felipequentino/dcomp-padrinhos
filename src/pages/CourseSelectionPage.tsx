@@ -3,7 +3,7 @@ import CourseSelector from '../components/CourseSelector';
 import { useUser } from '../contexts/UserContext';
 import { useMentors } from '../contexts/MentorContext';
 import { Course } from '../types';
-import { LogOut } from 'lucide-react';
+import { LogOut, Github } from 'lucide-react';
 
 const CourseSelectionPage: React.FC = () => {
   const { user, setCourse, logout } = useUser();
@@ -16,8 +16,18 @@ const CourseSelectionPage: React.FC = () => {
   
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-blue-800">
-      <header className="py-4 px-6 flex justify-between items-center">
-        <h1 className="text-xl font-bold text-white">Escolha de Padrinhos</h1>
+      <header className="py-4 px-6 flex justify-between items-start">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-xl font-bold text-white">Escolha de Padrinhos</h1>
+          <a
+            href="https://github.com/felipequentino/dcomp-padrinhos"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white hover:text-blue-200 transition-colors"
+          >
+            <Github className="h-5 w-5" />
+          </a>
+        </div>
         <div className="flex items-center">
           <span className="text-white mr-4">{user.email}</span>
           <button 
