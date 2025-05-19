@@ -73,7 +73,7 @@ const LoginPage: React.FC = () => {
                 />
               </a>
             </div>
-            
+             
             <div className="bg-white/90 rounded-lg p-4 w-full h-32 flex items-center justify-center">
               <a
                 href="https://www.instagram.com/softeam.ejc/"
