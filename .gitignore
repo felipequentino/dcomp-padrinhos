@@ -1,4 +1,7 @@
 backend/.env
 backend/.venv
 backend/sac.db
+backend/routers/__pycache__
+backend/app/__pycache__
+backend/services/__pycache__
 frontend/.env
