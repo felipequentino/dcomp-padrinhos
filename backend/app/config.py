@@ -9,6 +9,9 @@ class Settings(BaseSettings):
     jwt_expire_minutes: int = 60 * 24 * 7
 
     forms_csv_path: str = "../frontend/forms.csv"
+    # POST /api/admin/import-forms — cabeçalho X-Import-Secret; vazio => 503
+    import_forms_secret: str = ""
+
     cors_origins: str = "http://localhost:5173"
 
     smtp_host: str = "smtp.gmail.com"

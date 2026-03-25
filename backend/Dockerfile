@@ -19,6 +19,8 @@ RUN pip install --no-cache-dir --upgrade pip \
 # copia o resto da aplicação
 COPY . .
 
+RUN python -m app.scripts:import_forms
+
 # porta usada pelo uvicorn
 EXPOSE 8000
 
