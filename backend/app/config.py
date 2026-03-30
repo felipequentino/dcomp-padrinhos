@@ -24,5 +24,7 @@ class Settings(BaseSettings):
     otp_expire_minutes: int = 15
     otp_pepper: str = "dev-otp-pepper"
 
+    imgbb_key: str = ""
+
 
 settings = Settings()

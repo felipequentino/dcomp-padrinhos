@@ -1,8 +1,12 @@
 import asyncio
 import time
+import base64
+import json
+import urllib.request
+import urllib.parse
 from datetime import datetime, timedelta, timezone
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -174,3 +178,32 @@ async def update_profile(
         setattr(p, k, v)
     await session.commit()
     return {"detail": "Perfil atualizado"}
+
+
+@router.post("/upload-photo")
+async def upload_photo(
+    file: UploadFile = File(...),
+    p: Padrinho = Depends(get_current_padrinho),
+) -> dict[str, str]:
+    if not settings.imgbb_key:
+        raise HTTPException(status_code=500, detail="IMGBB_KEY não configurada no servidor.")
+
+    contents = await file.read()
+    b64_image = base64.b64encode(contents).decode("utf-8")
+    data = urllib.parse.urlencode({
+        "key": settings.imgbb_key,
+        "image": b64_image,
+    }).encode("utf-8")
+
+    def _upload():
+        req = urllib.request.Request("https://api.imgbb.com/1/upload", data=data, method="POST")
+        with urllib.request.urlopen(req) as response:
+            return json.loads(response.read().decode("utf-8"))
+
+    try:
+        resp = await asyncio.to_thread(_upload)
+        if "data" in resp and "url" in resp["data"]:
+            return {"url": resp["data"]["url"]}
+        raise ValueError(f"Resposta ImgBB inesperada: {resp}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro no upload da ImgBB: {e!s}")
