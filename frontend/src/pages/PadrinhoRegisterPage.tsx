@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { GraduationCap } from 'lucide-react';
-import { padrinhoLookup, padrinhoRequestOtp, padrinhoUpdateProfile, padrinhoVerifyOtp } from '../lib/api';
+import { GraduationCap, Upload } from 'lucide-react';
+import { padrinhoLookup, padrinhoRequestOtp, padrinhoUpdateProfile, padrinhoVerifyOtp, padrinhoUploadPhoto } from '../lib/api';
 import SiteFooter from '../components/SiteFooter';
 
 type Step = 'matricula' | 'otp' | 'perfil' | 'ok';
@@ -101,6 +101,21 @@ const PadrinhoRegisterPage: React.FC = () => {
     }
   };
 
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setErr('');
+    setBusy(true);
+    try {
+      const res = await padrinhoUploadPhoto(token, file);
+      setProfile((p) => ({ ...p, photo_url: res.url }));
+    } catch (ex) {
+      setErr(ex instanceof Error ? ex.message : 'Erro ao enviar foto');
+    } finally {
+      setBusy(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-blue-800 flex flex-col justify-center py-12 px-4">
       <div className="sm:mx-auto sm:w-full sm:max-w-lg text-center mb-6">
@@ -126,7 +141,8 @@ const PadrinhoRegisterPage: React.FC = () => {
               className="border p-2 w-full rounded"
               placeholder="Matrícula"
               value={matricula}
-              onChange={(e) => setMatricula(e.target.value)}
+              onChange={(e) => setMatricula(e.target.value.replace(/\D/g, ''))}
+              inputMode="numeric"
               required
             />
             {err && <p className="text-red-600 text-sm">{err}</p>}
@@ -198,7 +214,6 @@ const PadrinhoRegisterPage: React.FC = () => {
                 ['celebrity', 'Celebridade que chamaria para uma festa'],
                 ['dream_destination', 'Lugar que sonha em viajar'],
                 ['favorite_series', 'Série favorita'],
-                ['photo_url', 'Link da sua foto (Google Fotos etc.)'],
               ] as const
             ).map(([key, label]) => (
               <div key={key}>
@@ -210,6 +225,26 @@ const PadrinhoRegisterPage: React.FC = () => {
                 />
               </div>
             ))}
+            <div>
+              <label className="block text-xs font-medium text-gray-600">Sua Foto</label>
+              <div className="mt-1 flex items-center gap-4">
+                {profile.photo_url && (
+                  <img src={profile.photo_url} alt="Sua foto" className="w-12 h-12 rounded-full object-cover" />
+                )}
+                <label className="cursor-pointer bg-gray-100 hover:bg-gray-200 border text-gray-700 text-sm py-2 px-3 rounded flex items-center gap-2 transition-colors">
+                  <Upload className="w-4 h-4" />
+                  <span>Escolher imagem</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handlePhotoUpload}
+                    disabled={busy}
+                  />
+                </label>
+              </div>
+              {profile.photo_url && <p className="text-xs text-green-600 mt-1">Foto enviada com sucesso!</p>}
+            </div>
             <div>
               <label className="block text-xs font-medium text-gray-600">Descrição pessoal</label>
               <textarea

@@ -77,7 +77,7 @@ const FreshmanIdentifyPage: React.FC = () => {
               <input
                 className="mt-1 border p-2 w-full rounded"
                 value={matricula}
-                onChange={(e) => setMatricula(e.target.value)}
+                onChange={(e) => setMatricula(e.target.value.replace(/\D/g, ''))}
                 placeholder="202600059820"
                 inputMode="numeric"
                 autoComplete="username"

@@ -2,6 +2,34 @@ import type { Course, Mentor, MentorPair } from '../types';
 
 const base = () => (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, '') || 'http://127.0.0.1:8000';
 
+async function handleApiError(r: Response): Promise<never> {
+  let msg = r.statusText;
+  try {
+    const text = await r.text();
+    if (text) {
+      try {
+        const j = JSON.parse(text);
+        if (j.detail) {
+          if (typeof j.detail === 'string') {
+            msg = j.detail;
+          } else if (Array.isArray(j.detail)) {
+            msg = j.detail.map((e: any) => e.msg).join(', ');
+          } else {
+            msg = JSON.stringify(j.detail);
+          }
+        } else {
+          msg = text;
+        }
+      } catch {
+        msg = text;
+      }
+    }
+  } catch {
+    // ignore
+  }
+  throw new Error(msg);
+}
+
 export interface ApiMentorPublic {
   name: string;
   matricula: string;
@@ -43,10 +71,7 @@ function mapMentor(m: ApiMentorPublic, course: Course): Mentor {
 
 export async function fetchPairs(course: Course): Promise<MentorPair[]> {
   const r = await fetch(`${base()}/api/pairs?course=${encodeURIComponent(course)}`);
-  if (!r.ok) {
-    const t = await r.text();
-    throw new Error(t || r.statusText);
-  }
+  if (!r.ok) await handleApiError(r);
   const data: ApiPair[] = await r.json();
   return data.map((p) => ({
     id: p.id,
@@ -77,16 +102,7 @@ export async function registerFreshmanSelection(body: {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
-  if (!r.ok) {
-    let msg = r.statusText;
-    try {
-      const j = await r.json();
-      if (j.detail) msg = typeof j.detail === 'string' ? j.detail : JSON.stringify(j.detail);
-    } catch {
-      /* ignore */
-    }
-    throw new Error(msg);
-  }
+  if (!r.ok) await handleApiError(r);
   return r.json();
 }
 
@@ -104,7 +120,7 @@ export async function padrinhoLookup(matricula: string): Promise<{
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ matricula }),
   });
-  if (!r.ok) throw new Error(await r.text());
+  if (!r.ok) await handleApiError(r);
   return r.json();
 }
 
@@ -114,10 +130,7 @@ export async function padrinhoRequestOtp(matricula: string, email: string): Prom
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ matricula, email }),
   });
-  if (!r.ok) {
-    const t = await r.text();
-    throw new Error(t);
-  }
+  if (!r.ok) await handleApiError(r);
 }
 
 export async function padrinhoVerifyOtp(matricula: string, code: string): Promise<{ access_token: string }> {
@@ -126,10 +139,7 @@ export async function padrinhoVerifyOtp(matricula: string, code: string): Promis
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ matricula, code }),
   });
-  if (!r.ok) {
-    const t = await r.text();
-    throw new Error(t);
-  }
+  if (!r.ok) await handleApiError(r);
   return r.json();
 }
 
@@ -145,5 +155,19 @@ export async function padrinhoUpdateProfile(
     },
     body: JSON.stringify(profile),
   });
-  if (!r.ok) throw new Error(await r.text());
+  if (!r.ok) await handleApiError(r);
+}
+
+export async function padrinhoUploadPhoto(token: string, file: File): Promise<{ url: string }> {
+  const formData = new FormData();
+  formData.append('file', file);
+  const r = await fetch(`${base()}/api/padrinho/upload-photo`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+  if (!r.ok) await handleApiError(r);
+  return r.json();
 }
