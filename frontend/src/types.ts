@@ -21,7 +21,7 @@ export interface Mentor {
   whatsappLink: string;
 }
 
-export type Course = 'SI' | 'CC' | 'EC';
+export type Course = 'SI' | 'CC' | 'EC' | 'IA';
 
 /** Dados do calouro na home (antes da escolha da dupla) */
 export interface FreshmanUser {

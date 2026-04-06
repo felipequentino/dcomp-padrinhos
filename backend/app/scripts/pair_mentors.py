@@ -55,7 +55,7 @@ def _greedy_pairs(sim: np.ndarray, n: int) -> list[tuple[int, int]]:
     return out
 
 
-async def _run() -> None:
+async def _run(skip_cleanup: bool = False) -> None:
     engine = create_async_engine(settings.database_url, pool_pre_ping=True)
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
@@ -63,9 +63,12 @@ async def _run() -> None:
     Session = async_sessionmaker(engine, expire_on_commit=False)
     async with Session() as session:
         async with session.begin():
-            used_pairs = select(FreshmanSelection.pair_id).distinct()
-            await session.execute(delete(MentorPair).where(MentorPair.id.not_in(used_pairs)))
+            if not skip_cleanup:
+                # Remove duplas sem calouros para re-parear
+                used_pairs = select(FreshmanSelection.pair_id).distinct()
+                await session.execute(delete(MentorPair).where(MentorPair.id.not_in(used_pairs)))
 
+            # Lê quais matrículas já estão emparelhadas (duplas manuais ou protegidas)
             paired_matriculas: set[str] = set()
             kept = (await session.scalars(select(MentorPair))).all()
             for mp in kept:

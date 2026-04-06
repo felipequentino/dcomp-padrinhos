@@ -108,7 +108,7 @@ class FreshmanRegisterIn(BaseModel):
     freshman_matricula: str
     name: str = Field(max_length=512)
     phone: str = Field(max_length=64)
-    course: str = Field(pattern="^(CC|SI|EC)$")
+    course: str = Field(pattern="^(CC|SI|EC|IA)$")
     terms_accepted: bool
     pair_id: str
 

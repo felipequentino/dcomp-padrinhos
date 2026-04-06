@@ -122,7 +122,7 @@ const FreshmanIdentifyPage: React.FC = () => {
               />
               <span>
                 Declaro que as informações acima são verdadeiras, que sou calouro(a) de um dos cursos de
-                computação do DCOMP (CC, EC ou SI) e que desejo participar do programa de apadrinhamento.
+                computação do DCOMP (CC, EC, SI ou IA) e que desejo participar do programa de apadrinhamento.
               </span>
             </label>
             {err && <p className="text-red-600 text-sm">{err}</p>}

@@ -39,10 +39,13 @@ async def list_pairs(
     session: AsyncSession = Depends(get_session),
 ) -> list[PairOut]:
     c = course.strip().upper()
-    if c not in ("CC", "SI", "EC"):
-        raise HTTPException(status_code=400, detail="Curso inválido (use CC, SI ou EC)")
+    if c not in ("CC", "SI", "EC", "IA"):
+        raise HTTPException(status_code=400, detail="Curso inválido (use CC, SI, EC ou IA)")
 
-    pairs = (await session.scalars(select(MentorPair).where(MentorPair.course == c))).all()
+    if c == "IA":
+        pairs = (await session.scalars(select(MentorPair))).all()
+    else:
+        pairs = (await session.scalars(select(MentorPair).where(MentorPair.course == c))).all()
     out: list[PairOut] = []
 
     for mp in pairs:
