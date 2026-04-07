@@ -7,6 +7,7 @@ import { useMentors } from '../contexts/MentorContext';
 import PairingSuccess from '../components/PairingSuccess';
 import MentorCard from '../components/MentorCard';
 import SiteFooter from '../components/SiteFooter';
+import SiteBrand from '../components/SiteBrand';
 
 import type { MentorPair } from '../types';
 import { registerFreshmanSelection } from '../lib/api';
@@ -91,7 +92,14 @@ const MentorSelectionPage: React.FC = () => {
 
       <main className="container mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-          <h2 className="text-2xl font-bold text-blue-900 mb-2">Duplas de Padrinhos – {user.course}</h2>
+          <div className="mb-6">
+            <SiteBrand
+              title={`Duplas de Padrinhos — ${user.course}`}
+              subtitle="Escolha uma dupla alinhada ao seu curso e aos seus interesses."
+              tone="dark"
+              compact
+            />
+          </div>
           <p className="text-gray-600">
             Escolha uma dupla com base nas suas afinidades. Cada dupla pode acolher no máximo quatro calouros. As vagas
             são atualizadas automaticamente.

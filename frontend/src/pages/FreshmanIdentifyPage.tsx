@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
-import { GraduationCap } from 'lucide-react';
 import {
   normalizeCalouroMatricula,
   normalizeCalouroName,
@@ -10,6 +9,7 @@ import {
   validateCalouroPhone,
 } from '../utils/freshmanValidation';
 import SiteFooter from '../components/SiteFooter';
+import SiteBrand from '../components/SiteBrand';
 
 const FreshmanIdentifyPage: React.FC = () => {
   const { setFreshmanIdentity } = useUser();
@@ -54,14 +54,11 @@ const FreshmanIdentifyPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-blue-800 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <div className="mx-auto h-16 w-16 rounded-full bg-white flex items-center justify-center">
-          <GraduationCap className="h-10 w-10 text-blue-800" />
-        </div>
-        <h2 className="mt-6 text-3xl font-extrabold text-white">Escolha de Padrinhos</h2>
-        <p className="mt-2 text-sm text-blue-100">
-          Departamento de Computação • UFS — calouros dos cursos de computação
-        </p>
+      <div className="sm:mx-auto sm:w-full sm:max-w-2xl px-4">
+        <SiteBrand
+          title="Escolha de Padrinhos"
+          subtitle="Departamento de Computação • UFS — calouros dos cursos de computação"
+        />
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">

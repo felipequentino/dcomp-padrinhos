@@ -6,6 +6,7 @@ import { useMentors } from '../contexts/MentorContext';
 import { Course } from '../types';
 import { LogOut, Github } from 'lucide-react';
 import SiteFooter from '../components/SiteFooter';
+import SiteBrand from '../components/SiteBrand';
 
 const CourseSelectionPage: React.FC = () => {
   const { user, setCourse, clearFreshman } = useUser();
@@ -47,7 +48,13 @@ const CourseSelectionPage: React.FC = () => {
 
       <main className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto py-12 bg-white rounded-lg shadow-xl mt-8">
-          <h2 className="text-3xl font-bold text-center text-blue-900 mb-8">Bem-vindo(a) ao Sistema de Padrinhos</h2>
+          <div className="px-4 mb-8">
+            <SiteBrand
+              title="Bem-vindo(a) ao Sistema de Padrinhos"
+              subtitle="Departamento de Computação • UFS"
+              tone="dark"
+            />
+          </div>
           <p className="text-center text-gray-600 mb-4 mx-auto max-w-2xl px-4">
             Selecione o seu curso para ver as duplas de padrinhos disponíveis. Cada calouro pode escolher apenas uma
             dupla. Cada dupla pode acolher no máximo <strong>quatro</strong> calouros.

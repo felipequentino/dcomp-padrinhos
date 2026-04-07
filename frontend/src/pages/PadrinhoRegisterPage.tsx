@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { GraduationCap, Upload } from 'lucide-react';
+import { Upload } from 'lucide-react';
 import { padrinhoLookup, padrinhoRequestOtp, padrinhoUpdateProfile, padrinhoVerifyOtp, padrinhoUploadPhoto } from '../lib/api';
 import SiteFooter from '../components/SiteFooter';
+import SiteBrand from '../components/SiteBrand';
 
 type Step = 'matricula' | 'otp' | 'perfil' | 'ok';
 
@@ -118,12 +119,12 @@ const PadrinhoRegisterPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-blue-800 flex flex-col justify-center py-12 px-4">
-      <div className="sm:mx-auto sm:w-full sm:max-w-lg text-center mb-6">
-        <div className="mx-auto h-14 w-14 rounded-full bg-white flex items-center justify-center">
-          <GraduationCap className="h-9 w-9 text-blue-800" />
-        </div>
-        <h1 className="mt-4 text-2xl font-bold text-white">Cadastro — Padrinho/Madrinha</h1>
-        <p className="mt-2 text-sm text-blue-100">SAC DCOMP • Verificação por e-mail @dcomp.ufs.br</p>
+      <div className="sm:mx-auto sm:w-full sm:max-w-2xl text-center mb-6">
+        <SiteBrand
+          title="Cadastro — Padrinho/Madrinha"
+          subtitle="SAC DCOMP • Verificação por e-mail @dcomp.ufs.br"
+          compact
+        />
       </div>
 
       <div className="sm:mx-auto sm:w-full sm:max-w-lg bg-white rounded-lg shadow-lg p-6">
