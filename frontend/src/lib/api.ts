@@ -75,7 +75,7 @@ export async function fetchPairs(course: Course): Promise<MentorPair[]> {
   const data: ApiPair[] = await r.json();
   return data.map((p) => ({
     id: p.id,
-    pair: p.mentors.map((m) => mapMentor(m, course)),
+    pair: p.mentors.map((m) => mapMentor(m, p.course as Course)),
     availableSlots: p.available_slots,
     maxSlots: p.max_slots,
     whatsappLink: p.whatsapp_group_link || p.mentors[0]?.whatsapp || '#',

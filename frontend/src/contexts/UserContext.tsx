@@ -5,7 +5,7 @@ import { saveToLocalStorage, getFromLocalStorage } from '../utils/auth';
 interface UserContextType {
   user: FreshmanUser;
   setFreshmanIdentity: (data: Pick<FreshmanUser, 'matricula' | 'name' | 'phone' | 'termsAccepted'>) => void;
-  setCourse: (course: Course) => void;
+  setCourse: (course: Course | undefined) => void;
   clearFreshman: () => void;
   /** Pronto para escolher curso / duplas */
   identityComplete: boolean;
@@ -47,7 +47,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser((prev) => ({ ...prev, ...data, course: undefined }));
   };
 
-  const setCourse = (course: Course) => {
+  const setCourse = (course: Course | undefined) => {
     setUser((prev) => ({ ...prev, course }));
   };
 

@@ -55,7 +55,7 @@ async def register_and_select(
         if mp is None:
             raise HTTPException(status_code=404, detail="Dupla não encontrada")
 
-        if mp.course != body.course:
+        if body.course != "IA" and mp.course != body.course:
             raise HTTPException(status_code=400, detail="Esta dupla não pertence ao curso informado")
 
         dup = await session.scalar(

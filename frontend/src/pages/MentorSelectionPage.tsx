@@ -94,7 +94,7 @@ const MentorSelectionPage: React.FC = () => {
         <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
           <div className="mb-6">
             <SiteBrand
-              title={`Duplas de Padrinhos — ${user.course}`}
+              title={user.course === 'IA' ? 'Todas as Duplas de Padrinhos' : `Duplas de Padrinhos — ${user.course}`}
               subtitle="Escolha uma dupla alinhada ao seu curso e aos seus interesses."
               tone="dark"
               compact
